@@ -1,0 +1,65 @@
+<!--heeader-->
+    <nav class="bg-black z-50 flex items-center justify-between w-full py-4 px-6 md:px-16 lg:px-24 xl:px-32 backdrop-blur  text-white text-slate-800 text-lg">
+        <h1>LOGO</h1>
+        <div class="hidden md:flex items-center gap-8 transition duration-500">
+            <a href="/" class="hover:text-slate-500 transition">
+                Home
+            </a>
+            <a href="/service" class="hover:text-slate-500 transition">
+                Services
+            </a>
+            <a href="/appointment" class="hover:text-slate-500 transition">
+                Appointment
+            </a>
+
+        </div>
+
+        <div class="hidden md:block space-x-3">
+
+            <a class="hover:bg-slate-100 transition px-6 py-2 border border-indigo-600 rounded-md cursor-pointer" routerLink="/login">
+                Login
+            </a>
+        </div>
+        <button id="open-menu" class="md:hidden active:scale-90 transition">
+            <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-menu-icon lucide-menu"><path d="M4 5h16"/><path d="M4 12h16"/><path d="M4 19h16"/></svg>
+        </button>
+    </nav>
+
+    <!--calendar-->
+  <section class="p-6 bg-gray-100 min-h-screen flex items-center justify-center">
+  <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-2xl">
+    <!-- Header -->
+    <div class="flex items-center justify-between mb-4">
+      <button class="p-2 rounded hover:bg-gray-200">&lt;</button>
+      <h2 class="text-xl font-semibold">December 2025</h2>
+      <button class="p-2 rounded hover:bg-gray-200">&gt;</button>
+    </div>
+
+    <!-- Weekday Labels -->
+    <div class="grid grid-cols-7 text-center font-medium text-gray-600 mb-2">
+      <div>Sun</div>
+      <div>Mon</div>
+      <div>Tue</div>
+      <div>Wed</div>
+      <div>Thu</div>
+      <div>Fri</div>
+      <div>Sat</div>
+    </div>
+
+    <!-- Days Grid -->
+    <div class="grid grid-cols-7 gap-2 text-center">
+      <!-- Empty slots to align first day -->
+      <div></div><div></div><div></div><div></div>
+      <!-- Days -->
+      <button class="p-2 rounded hover:bg-indigo-100">1</button>
+      <button class="p-2 rounded hover:bg-indigo-100">2</button>
+      <button class="p-2 rounded hover:bg-indigo-100">3</button>
+      <!-- … -->
+      <button class="p-2 rounded bg-indigo-500 text-white">12</button> <!-- Example selected -->
+      <!-- … -->
+      <button class="p-2 rounded hover:bg-indigo-100">31</button>
+    </div>
+  </div>
+</section>
+
+    
