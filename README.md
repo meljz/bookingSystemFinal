@@ -1,6 +1,6 @@
-# Tattoo Shop Management System
+# Tattoo Shop Management System (In-progress)
 
-A full-stack web application for managing a tattoo shop with Angular frontend and Lumen backend.
+A simple personal full-stack web application for managing a tattoo shop with Angular frontend and Lumen backend. With the objective to help a tattoo shop bussiness to have its own booking system.
 
 ## Features
 
