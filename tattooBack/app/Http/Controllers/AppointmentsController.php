@@ -12,14 +12,13 @@ class AppointmentsController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index(){
         $authUser = JWTAuth::parseToken()->authenticate();
 
         if (!$authUser){
-            return response()->
-                json([
+            return response()->json([
                     'errmsg'=>'not allowed'
                 ], 403);
         }
@@ -45,14 +44,14 @@ class AppointmentsController extends Controller
      */
     public function create()
     {
-        //
+        return response();
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
@@ -88,7 +87,7 @@ class AppointmentsController extends Controller
      */
     public function show($id)
     {
-        //
+        return response();
     }
 
     /**
@@ -99,7 +98,7 @@ class AppointmentsController extends Controller
      */
     public function edit($id)
     {
-        //
+        return response();
     }
 
     /**
@@ -111,7 +110,7 @@ class AppointmentsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        return response();
     }
 
     /**
@@ -122,6 +121,6 @@ class AppointmentsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        return response();
     }
 }

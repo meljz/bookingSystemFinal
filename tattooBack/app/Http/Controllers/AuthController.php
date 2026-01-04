@@ -14,7 +14,8 @@ class AuthController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|string|min:6',
-            'role' => 'in:customer,artist' ]);
+            'role' => 'nullable|in:customer,artist' 
+        ]);
 
        $user = User::create([
             'name' => $request->name,
@@ -35,11 +36,16 @@ class AuthController extends Controller
         
         $credentials = $request->only ('email', 'password');
 
-        if (! $token = JWTAuth::attempt($credentials)){
+        $token = JWTAuth::attempt($credentials);
+
+        if (!$token){
             return response()->json(['error' => "Invalid Credentials"], 401);
         }
 
-        return response()->json(['token' => $token ]);
+        return response()->json([
+            'token' => $token,
+            'goodmsg' => "Successfully logged in" 
+        ]);
     }
 
     //show profile

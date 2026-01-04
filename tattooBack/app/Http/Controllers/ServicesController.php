@@ -14,7 +14,7 @@ class ServicesController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
@@ -36,14 +36,14 @@ class ServicesController extends Controller
      */
     public function create()
     {
-        //
+        return response();
     }
 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse    
      */
     public function store(Request $request)
     {
@@ -76,7 +76,7 @@ class ServicesController extends Controller
      * Display the specified resource.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function show($id)
     {
@@ -106,7 +106,7 @@ class ServicesController extends Controller
      */
     public function edit($id)
     {
-        //
+        return response();  
     }
 
     /**
@@ -118,14 +118,14 @@ class ServicesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        return response();
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
     public function destroy($id)
     {

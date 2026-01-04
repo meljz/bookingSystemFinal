@@ -15,9 +15,14 @@
         </div>
 
         <div class="hidden md:block space-x-3">
-
             <a class="hover:bg-slate-100 transition px-6 py-2 border border-indigo-600 rounded-md cursor-pointer" routerLink="/login">
                 Login
+            </a>
+        </div>
+
+        <div class="hidden md:block space-x-3">
+            <a class="hover:bg-slate-100 transition px-6 py-2 border border-indigo-600 rounded-md cursor-pointer" (click)="logout()" >
+                logout
             </a>
         </div>
 

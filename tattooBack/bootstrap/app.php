@@ -32,9 +32,10 @@ $app->middleware([
     App\Http\Middleware\CorsMiddleware::class
 ]);
 
-
-$app->routeMiddleware(
-    [ 'auth' => App\Http\Middleware\Authenticate::class, 'role' => App\Http\Middleware\RoleMiddleware::class, ]);
+// Or for specific routes:
+$app->routeMiddleware([
+    'cors' => App\Http\Middleware\CorsMiddleware::class,
+]);
 
 $app->configure('auth');
 
