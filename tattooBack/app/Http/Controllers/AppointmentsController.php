@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Appointment;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use Tymon\JWTAuth\Exceptions\JWTException;
+use Tymon\JWTAuth\Exceptions\TokenExpiredException;
+use Tymon\JWTAuth\Exceptions\TokenInvalidException;
 use Illuminate\Http\Request;
 
 
@@ -54,29 +57,40 @@ class AppointmentsController extends Controller
      * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
-    {
-        $authUser = JWTAuth::parseToken()->authenticate();
-        if(!$authUser){
-            return response()->
-                json([
-                    'errmsg'=>'Not Allowed'
-                ], 403);
-        }
+    { try {
+            if (! JWTAuth::getToken()) {
+                return response()->json(['errmsg' => 'token_missing'], 401);
+            }
 
-        $validate = $this->validate($request, [
-            'artist_id'=>'required|integer',
-            'service_id'=>'required|integer',
-            'date'=>'required|date',
-            'status'=>'required|string|in:pending,confirmed,completed,cancelled'
+            $authUser = JWTAuth::parseToken()->authenticate();
+            
+        } catch (TokenExpiredException $e) {
+            return response()->json(['errmsg' => 'token_expired'], 401);
+        } catch (TokenInvalidException $e) {
+            return response()->json(['errmsg' => 'token_invalid'], 401);
+        } catch (JWTException $e) {
+            return response()->json(['errmsg' => 'token_error', 'detail' => $e->getMessage()], 401);
+        }
+       
+     
+
+        $this->validate($request, [
+            'name'=>'required|string',
+            'age'=>'required|integer',
+            'phone'=>'required|integer',
+            //'date'=>'required|date',
+            'design'=>'required|string',
         ]);
 
-        $appointment = Appointment::create($validate);
+        $appointment = Appointment::create($request->only([
+            'name', 'age', 'phone', 'design'
+        ]));
 
         return response()->
             json([
                 'msgsucc' => 'success creation of appointment',
                 'appointment'=> $appointment
-            ]);
+            ], 201 );
     }
 
     /**

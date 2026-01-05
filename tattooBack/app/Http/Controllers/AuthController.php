@@ -27,7 +27,10 @@ class AuthController extends Controller
         return response()->json($user, 201);
     }
 
-    //for login
+    //for login 1 
+    /* this works but cant decode in angular since no shape of data in payload */
+
+    /*
     public function login(Request $request){
         $this->validate($request, [
             'email' => 'required|email',
@@ -38,21 +41,51 @@ class AuthController extends Controller
 
         $token = JWTAuth::attempt($credentials);
 
-        if (!$token){
+        if ($token){
+            return response()->json([
+            'token' => $token,
+            'goodmsg' => "Successfully logged in"
+        ], 201);
+
             return response()->json(['error' => "Invalid Credentials"], 401);
+        } 
+    }
+    */
+
+    //for login 2
+    public function login (Request $request){
+        $this->validate($request, [
+            'email' => 'required|email',
+            'password' => 'required'
+        ]);
+
+        $credentials = $request->only('email', 'password');
+
+        if ($user = User::where('email', $credentials['email'])->first()) {
+            if ($token = JWTAuth::claims([
+                'id' => $user->id,
+                'name' => $user->name,
+                'email' => $user->email,
+            ])->attempt($credentials)) {
+                return response()->json([
+                    'token' => $token,
+                    'goodmsg' => "Successfully logged in"
+                ], 201);
+            } else {
+                return response()->json(['error' => "Invalid Credentials"], 401);
+            }
+            
+            return response()->json(['error' => "User not found"], 404);
         }
 
-        return response()->json([
-            'token' => $token,
-            'goodmsg' => "Successfully logged in" 
-        ]);
     }
+
+        
 
     //show profile
     public function show($id){
         $user = User::findOrFail ($id);
         return response()->json($user);
-
 
     }
 
@@ -99,6 +132,22 @@ class AuthController extends Controller
                 'error' => 'Failed to logout, token invalid or expired'
             ], 500);
         }
+        //alternative logout without try catch
+        /*    
+        $token = JWTAuth::getToken();
+        if ($token){
+            JWTAuth::invalidate(JWTAuth::parseToken());
+
+            return response()->json([
+                'msg' => 'success logout'
+            ]);
+        }
+
+        
+            return response()->json([
+                'msg' => 'failed to logout'
+            ]);
+        */
     }
 
 }

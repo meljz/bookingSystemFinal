@@ -6,9 +6,13 @@
     <a href="/service" class="hover:text-slate-500">Services</a>
     <a href="/appointment" class="hover:text-slate-500">Appointment</a>
   </div>
-  <div class="hidden md:block space-x-3">
-    <a class="hover:bg-slate-100 px-6 py-2 border border-indigo-600 rounded-md" routerLink="/login">Login</a>
-  </div>
+
+  <div class="hidden md:block">
+            <a class=" text-white text-lg m-2">CUser: {{ authService.isLoggedIn }}</a>
+
+            <a class="hover:bg-slate-100 transition px-6 py-2 border border-indigo-600 rounded-md cursor-pointer" (click)="logout()">logout</a>
+        </div>
+
   <button id="open-menu" class="md:hidden active:scale-90">
     <!-- menu icon -->
   </button>

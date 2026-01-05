@@ -2,6 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { AuthService } from '../services/auth.service';
+import { AppointmentService } from '../services/appointment.service';
 
 @Component({
   selector: 'app-appointment',
@@ -24,33 +26,56 @@ export class AppointmentComponent {
     design = '';
 
 
-
-
   //hiding currently
   bAppoint = false;
 
-  constructor(private router: Router) { }
+  constructor(
+    private router: Router,
+    public authService: AuthService,
+    private appointmentService: AppointmentService) { }
 
   bookAppointment() {
     this.bAppoint = true;
     this.selectedDay = null;
   }
 
-
   cancelBooking(){
     this.bAppoint = false;
   }
 
   confirmBooking() {
-    // Here you can handle the booking logic, e.g., send data to a server
-    console.log('Booking confirmed for:', this.name, this.age, this.phone, this.design, 'on', this.selectedDate);
+    alert('check message 1 confirming 1');
     this.bAppoint = false;
-    alert('Booking confirmed!');
 
-    //reset form fields
-    this.name = '';
-    this.age = '';
-    this.phone = '';
-    this.design = '';
+    this.appointmentService.bookAppointment({ name: this.name, age: Number(this.age), phone: Number(this.phone), design: this.design, date: this.selectedDate })
+    .subscribe({
+      next: res => {
+        alert('Appointment booked successfully!');
+          //reset form fields
+        this.name = '';
+        this.age = '';
+        this.phone = '';
+        this.design = '';
+      },
+      error: err => {
+        alert('Error booking appointment. Please try again.');
+      }
+    })
+   
+
+
+  }
+
+  logout(){
+    this.authService.logout()
+    .subscribe({
+      next: res => {
+        alert("logged out successful");
+        this.router.navigate(['/login']);
+      },
+      error: err => {
+        alert("error during logout");
+      }
+  });
   }
 }

@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/internal/Observable';
 import { tap } from 'rxjs/internal/operators/tap';
+import { jwtDecode }  from 'jwt-decode';
+
 
 @Injectable({
   providedIn: 'root'
@@ -36,5 +38,24 @@ export class AuthService {
     })
   );
 }
+
+/* ==== logic for extracting info of JWT ====  */
+
+  //gets the token from local storage
+  get token(): string{
+    return localStorage.getItem('token') || '';
+  }
+
+  //just to get the name from the token
+  get isLoggedIn(): string{
+    const token = this.token;
+    if(token){
+      const decoding: any = jwtDecode(token);
+      return decoding.name || '';
+    }
+    return '';
+  }
+/* =====================================  */
+
 
 }

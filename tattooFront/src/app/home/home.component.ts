@@ -13,10 +13,15 @@ import { AuthService } from '../services/auth.service';
 })
 export class HomeComponent {
 
+  get userEmail(): string {
+    return this.authService.isLoggedIn;
+  }
+
   constructor(
     private router: Router,
-    private authService: AuthService
-  ) { }
+    public authService: AuthService
+  ) {}
+
 
   logout(){
     this.authService.logout()
