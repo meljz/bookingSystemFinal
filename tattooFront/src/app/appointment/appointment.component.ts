@@ -16,8 +16,11 @@ export class AppointmentComponent {
   months = Array.from({ length: 12 }, (_, i) => i + 1);
   years = Array.from({ length: 5 }, (_, i) => new Date().getFullYear() + i);
 
-  selectedDate: string = '';
+  selectedDate: Date | null = null;
   selectedDay: number | null = null;
+
+  //empty fields
+  appointments: any[] = [];
 
   //form fields
     name = '';
@@ -34,10 +37,17 @@ export class AppointmentComponent {
     public authService: AuthService,
     private appointmentService: AppointmentService) { }
 
-  bookAppointment() {
+  bookAppointment(day:number) {
+    this.selectedDay = day;
     this.bAppoint = true;
-    this.selectedDay = null;
+    this.selectedDate = new Date(2026, 0, day);
+
   }
+
+  ngOnInit(): void {
+    //try to retain booked appointment
+  }
+
 
   cancelBooking(){
     this.bAppoint = false;
@@ -47,10 +57,18 @@ export class AppointmentComponent {
     alert('check message 1 confirming 1');
     this.bAppoint = false;
 
-    this.appointmentService.bookAppointment({ name: this.name, age: Number(this.age), phone: Number(this.phone), design: this.design, date: this.selectedDate })
+    this.appointmentService.bookAppointment({ name: this.name, age: Number(this.age), phone: Number(this.phone), design: this.design, day: Number(this.selectedDay) })
     .subscribe({
       next: res => {
         alert('Appointment booked successfully!');
+        // ensure appointment appears on the clicked day in the calendar view
+        const appt = res.appointment || {};
+        if (this.selectedDay != null) {
+          const now = new Date();
+          const localDate = new Date(now.getFullYear(), now.getMonth(), Number(this.selectedDay));
+          appt.created_at = localDate.toISOString();
+        }
+        this.appointments.push(appt);
           //reset form fields
         this.name = '';
         this.age = '';
@@ -61,10 +79,49 @@ export class AppointmentComponent {
         alert('Error booking appointment. Please try again.');
       }
     })
-   
-
-
   }
+
+  deleteAppointment(appointmentId: number) {
+    this.appointmentService.deleteAppointment(appointmentId)
+    .subscribe ({
+      next: res => {
+        alert ('successfully deleted appointment');
+        this.getUser(); //this will fetch everything again.
+        console.log(res);
+      },
+      error: err => {
+        alert('Error deleting appointment.');
+      }
+    });
+  }
+
+  editAppointment(appointmentId: number) {
+    //IN PROGRESS
+  }
+
+  getUser() {
+    this.appointmentService.getUser()
+    .subscribe({
+      next: res => {
+        console.log ('getting user data');
+        this.appointments = res.appointments;
+        console.log(res);
+      },
+      error: err => {
+        alert('Error retrieving user data.');
+      }
+    })
+  }
+
+  getAppointmentsForDay(day: number) {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = now.getMonth();
+  return this.appointments.filter(appt => {
+    const apptDate = new Date(appt.created_at);
+    return apptDate.getFullYear() === year && apptDate.getMonth() === month && apptDate.getDate() === day;
+  });
+}
 
   logout(){
     this.authService.logout()

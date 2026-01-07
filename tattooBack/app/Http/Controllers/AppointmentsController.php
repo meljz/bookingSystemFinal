@@ -35,7 +35,7 @@ class AppointmentsController extends Controller
 
         return response()->
             json([
-                'succmsg'=>'this is all appointments here',
+                'msg'=>'gets users appointments',
                 'appointments'=>$appointment
             ]);
     }
@@ -88,7 +88,7 @@ class AppointmentsController extends Controller
 
         return response()->
             json([
-                'msgsucc' => 'success creation of appointment',
+                'msg' => 'appointment created successfully',
                 'appointment'=> $appointment
             ], 201 );
     }
@@ -134,7 +134,13 @@ class AppointmentsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
-    {
-        return response();
+    {   
+        $destroyAppt = Appointment::destroy($id);
+
+        return response()->json ([
+            'msg' => 'appointment deleted',
+            'appointment' => $destroyAppt
+        ], 200);
+        
     }
 }

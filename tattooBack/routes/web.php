@@ -38,7 +38,8 @@ $router->group(['prefix' => 'service'], function() use ($router){
 
 //appointments
 $router->group(['prefix' => 'appointment'], function() use ($router){
-    $router->post ('/','AppointmentsController@store'); //-goods
-    $router->get ('/','AppointmentsController@index'); // goods
+    $router->post ('/','AppointmentsController@store'); //tested - good
+    $router->get ('/','AppointmentsController@index'); //tested - good
+    $router->delete ('/{id}', 'AppointmentsController@destroy'); //tested - good
 
 });
